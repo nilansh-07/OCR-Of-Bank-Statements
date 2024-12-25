@@ -1,14 +1,12 @@
-# Cloudinary and Llama OCR Integration
-from fastapi import FastAPI
-import gradio as gr
-import os
-import pandas as pd
-import matplotlib.pyplot as plt
-import re
-from dotenv import load_dotenv
-import cloudinary
-from cloudinary.api import resources
-import subprocess
+import subprocess  # For running external processes
+import os  # For interacting with the operating system
+import pandas as pd  # For working with tabular data
+import gradio as gr  # For creating interactive interfaces
+import matplotlib.pyplot as plt  # For plotting data visualizations
+import re  # For regular expression operations
+from dotenv import load_dotenv  # For loading environment variables
+import cloudinary  # For interacting with the Cloudinary API
+from cloudinary.api import resources  # For accessing Cloudinary resources
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -172,7 +170,7 @@ def interface(folder, limit, document_type):
     chart_path = generate_visualizations(extracted_data_df, document_type) if not extracted_data_df.empty else None
     return raw_data_df, extracted_data_df, chart_path, message, image_urls
 
-# Create Gradio UI (as in your code)
+# Create Gradio UI
 with gr.Blocks() as ui:
     gr.Markdown("# Fetches Images from Cloudinary with OCR Integration and Visualization")
     folder_input = gr.Dropdown(choices=FOLDERS, label="Select Folder")
@@ -186,18 +184,12 @@ with gr.Blocks() as ui:
     output_extracted_data = gr.Dataframe(label="Specific Extracted Data")
     output_chart = gr.Image(label="Charts (Pie & Bar)")
 
+    # Bind interface inputs and outputs
     fetch_button.click(
-        interface,
-        inputs=[folder_input, limit_input, document_type_input],
+        interface, 
+        inputs=[folder_input, limit_input, document_type_input], 
         outputs=[output_raw_data, output_extracted_data, output_chart, output_message, output_images]
     )
 
-# FastAPI app
-app = FastAPI()
-
-@app.get("/")
-def home():
-    return {"message": "Welcome to my Gradio app. Go to /gradio"}
-
-# Mount Gradio on FastAPI
-app.mount("/gradio", ui.asgi)
+# Launch Gradio app
+ui.launch()
