@@ -1,0 +1,15 @@
+{
+    "name": "ocr-integration",
+    "version": "1.0.0",
+    "description": "Node.js OCR integration using llama-ocr",
+    "main": "ocrScript.js",
+    "scripts": {
+      "start": "node ocrScript.js"
+    },
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+      "llama-ocr": "^1.2.3"
+    }
+  }
+  
